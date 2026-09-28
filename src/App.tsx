@@ -89,9 +89,21 @@ export default function App() {
   const introVideoRef = useRef<HTMLVideoElement>(null);
 
   const [inscriptionModalOpen, setInscriptionModalOpen] = useState(false);
+  const [expandedImage, setExpandedImage] = useState<{ src: string; alt: string } | null>(null);
   const [activeSection, setActiveSection] = useState<'inicio' | 'institucional' | 'niveles' | 'galeria' | 'contacto'>('inicio');
   const [contactFormSubmitted, setContactFormSubmitted] = useState(false);
   const [contactForm, setContactForm] = useState({ name: '', email: '', message: '' });
+
+  // Close lightbox on Escape key
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setExpandedImage(null);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
   
   // Header scroll detection with hysteresis and fixed height to completely eliminate trembling
   const [isScrolled, setIsScrolled] = useState(false);
@@ -407,8 +419,7 @@ export default function App() {
               
               {/* Mobile Card: Nivel Inicial */}
               <div 
-                onClick={() => setInscriptionModalOpen(true)}
-                className="relative overflow-hidden rounded-2xl bg-[#930112] text-white p-4 shadow-md flex items-center justify-between cursor-pointer active:scale-[0.98] transition-transform"
+                className="relative overflow-hidden rounded-2xl bg-[#930112] text-white p-4 shadow-md flex items-center justify-between cursor-default"
               >
                 <img 
                   src={imgInicial01} 
@@ -417,23 +428,18 @@ export default function App() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/40 to-transparent" />
                 
-                <div className="relative z-10 space-y-1 pr-3">
+                <div className="relative z-10 space-y-1">
                   <span className="text-[10px] font-bold uppercase tracking-wider bg-white/20 px-2 py-0.5 rounded text-white">
                     Inicial
                   </span>
                   <h3 className="text-lg font-bold text-white">Nivel Inicial</h3>
                   <p className="text-slate-200 text-xs line-clamp-1">Afecto, juego y primeros aprendizajes en comunidad.</p>
                 </div>
-
-                <div className="relative z-10 shrink-0 w-9 h-9 rounded-xl bg-white/20 flex items-center justify-center text-white">
-                  <ChevronRight className="w-5 h-5" />
-                </div>
               </div>
 
               {/* Mobile Card: Nivel Primario */}
               <div 
-                onClick={() => setInscriptionModalOpen(true)}
-                className="relative overflow-hidden rounded-2xl bg-[#025530] text-white p-4 shadow-md flex items-center justify-between cursor-pointer active:scale-[0.98] transition-transform"
+                className="relative overflow-hidden rounded-2xl bg-[#025530] text-white p-4 shadow-md flex items-center justify-between cursor-default"
               >
                 <img 
                   src={imgPrimario01} 
@@ -442,23 +448,18 @@ export default function App() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/40 to-transparent" />
                 
-                <div className="relative z-10 space-y-1 pr-3">
+                <div className="relative z-10 space-y-1">
                   <span className="text-[10px] font-bold uppercase tracking-wider bg-white/20 px-2 py-0.5 rounded text-white">
                     Primario
                   </span>
                   <h3 className="text-lg font-bold text-white">Nivel Primario</h3>
                   <p className="text-slate-200 text-xs line-clamp-1">Formación académica sólida y valores humanos.</p>
                 </div>
-
-                <div className="relative z-10 shrink-0 w-9 h-9 rounded-xl bg-white/20 flex items-center justify-center text-white">
-                  <ChevronRight className="w-5 h-5" />
-                </div>
               </div>
 
               {/* Mobile Card: Nivel Secundario */}
               <div 
-                onClick={() => setInscriptionModalOpen(true)}
-                className="relative overflow-hidden rounded-2xl bg-[#334155] text-white p-4 shadow-md flex items-center justify-between cursor-pointer active:scale-[0.98] transition-transform"
+                className="relative overflow-hidden rounded-2xl bg-[#334155] text-white p-4 shadow-md flex items-center justify-between cursor-default"
               >
                 <img 
                   src={imgSecundario05} 
@@ -467,16 +468,12 @@ export default function App() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/40 to-transparent" />
                 
-                <div className="relative z-10 space-y-1 pr-3">
+                <div className="relative z-10 space-y-1">
                   <span className="text-[10px] font-bold uppercase tracking-wider bg-white/20 px-2 py-0.5 rounded text-white">
                     Secundario
                   </span>
                   <h3 className="text-lg font-bold text-white">Nivel Secundario</h3>
                   <p className="text-slate-200 text-xs line-clamp-1">Preparación superior y compromiso social cristiano.</p>
-                </div>
-
-                <div className="relative z-10 shrink-0 w-9 h-9 rounded-xl bg-white/20 flex items-center justify-center text-white">
-                  <ChevronRight className="w-5 h-5" />
                 </div>
               </div>
 
@@ -486,7 +483,7 @@ export default function App() {
             <div className="hidden md:grid md:grid-cols-3 gap-8">
               
               {/* CARD 1: NIVEL INICIAL - ROJO / BORDÓ */}
-              <div className="group relative overflow-hidden rounded-2xl h-[460px] shadow-lg transition-all duration-500 hover:shadow-2xl flex flex-col justify-end p-7 sm:p-8 cursor-pointer bg-[#930112]">
+              <div className="group relative overflow-hidden rounded-2xl h-[460px] shadow-lg transition-all duration-500 hover:shadow-2xl flex flex-col justify-end p-7 sm:p-8 cursor-default bg-[#930112]">
                 <img 
                   src={imgInicial01} 
                   alt="Nivel Inicial Santa Lucía" 
@@ -514,21 +511,15 @@ export default function App() {
                     </p>
                   </div>
 
-                  <div className="pt-2 flex items-center justify-between border-t border-white/20">
-                    <button 
-                      onClick={() => setInscriptionModalOpen(true)}
-                      className="text-xs sm:text-sm font-bold text-white group-hover:text-amber-300 flex items-center space-x-1"
-                    >
-                      <span>Inscripciones</span>
-                      <ArrowRight className="w-4 h-4 ml-1 transition-transform group-hover:translate-x-1" />
-                    </button>
-                    <ChevronRight className="w-4 h-4 text-white/70" />
+                  <div className="pt-2 flex items-center justify-between border-t border-white/20 text-xs sm:text-sm font-medium text-white/90">
+                    <span>Ciclo Lectivo 2027</span>
+                    <span className="text-xs text-amber-300 font-semibold">Comunidad Educadora</span>
                   </div>
                 </div>
               </div>
 
               {/* CARD 2: NIVEL PRIMARIO - VERDE */}
-              <div className="group relative overflow-hidden rounded-2xl h-[460px] shadow-lg transition-all duration-500 hover:shadow-2xl flex flex-col justify-end p-7 sm:p-8 cursor-pointer bg-[#025530]">
+              <div className="group relative overflow-hidden rounded-2xl h-[460px] shadow-lg transition-all duration-500 hover:shadow-2xl flex flex-col justify-end p-7 sm:p-8 cursor-default bg-[#025530]">
                 <img 
                   src={imgPrimario01} 
                   alt="Nivel Primario Santa Lucía" 
@@ -556,21 +547,15 @@ export default function App() {
                     </p>
                   </div>
 
-                  <div className="pt-2 flex items-center justify-between border-t border-white/20">
-                    <button 
-                      onClick={() => setInscriptionModalOpen(true)}
-                      className="text-xs sm:text-sm font-bold text-white group-hover:text-emerald-300 flex items-center space-x-1"
-                    >
-                      <span>Inscripciones</span>
-                      <ArrowRight className="w-4 h-4 ml-1 transition-transform group-hover:translate-x-1" />
-                    </button>
-                    <ChevronRight className="w-4 h-4 text-white/70" />
+                  <div className="pt-2 flex items-center justify-between border-t border-white/20 text-xs sm:text-sm font-medium text-white/90">
+                    <span>Ciclo Lectivo 2027</span>
+                    <span className="text-xs text-emerald-300 font-semibold">Comunidad Educadora</span>
                   </div>
                 </div>
               </div>
 
               {/* CARD 3: NIVEL SECUNDARIO - GRIS */}
-              <div className="group relative overflow-hidden rounded-2xl h-[460px] shadow-lg transition-all duration-500 hover:shadow-2xl flex flex-col justify-end p-7 sm:p-8 cursor-pointer bg-[#334155]">
+              <div className="group relative overflow-hidden rounded-2xl h-[460px] shadow-lg transition-all duration-500 hover:shadow-2xl flex flex-col justify-end p-7 sm:p-8 cursor-default bg-[#334155]">
                 <img 
                   src={imgSecundario05} 
                   alt="Nivel Secundario Santa Lucía" 
@@ -598,15 +583,9 @@ export default function App() {
                     </p>
                   </div>
 
-                  <div className="pt-2 flex items-center justify-between border-t border-white/20">
-                    <button 
-                      onClick={() => setInscriptionModalOpen(true)}
-                      className="text-xs sm:text-sm font-bold text-white group-hover:text-amber-300 flex items-center space-x-1"
-                    >
-                      <span>Inscripciones</span>
-                      <ArrowRight className="w-4 h-4 ml-1 transition-transform group-hover:translate-x-1" />
-                    </button>
-                    <ChevronRight className="w-4 h-4 text-white/70" />
+                  <div className="pt-2 flex items-center justify-between border-t border-white/20 text-xs sm:text-sm font-medium text-white/90">
+                    <span>Ciclo Lectivo 2027</span>
+                    <span className="text-xs text-slate-300 font-semibold">Comunidad Educadora</span>
                   </div>
                 </div>
               </div>
@@ -628,7 +607,7 @@ export default function App() {
                 Nuestra Escuela en Imágenes
               </h2>
               <p className="text-slate-600 text-xs sm:text-base">
-                Momentos, proyectos y encuentros que dan vida a la comunidad educativa en Tolosa.
+                Momentos, proyectos y encuentros que dan vida a la comunidad educativa en Tolosa. Hacé doble clic en una foto para ampliarla.
               </p>
             </div>
 
@@ -641,12 +620,14 @@ export default function App() {
                 {galleryPhotos.map((item, index) => (
                   <div 
                     key={`gal-c1-${index}`} 
-                    className="w-64 sm:w-72 h-44 sm:h-52 shrink-0 rounded-2xl overflow-hidden shadow-sm bg-slate-100 group transition-all duration-300 hover:shadow-md hover:-translate-y-1"
+                    onDoubleClick={() => setExpandedImage({ src: item.src, alt: item.alt })}
+                    title="Doble clic para ampliar imagen"
+                    className="w-64 sm:w-72 h-44 sm:h-52 shrink-0 rounded-2xl overflow-hidden shadow-sm bg-slate-100 group transition-all duration-300 hover:shadow-md hover:-translate-y-1 cursor-zoom-in select-none"
                   >
                     <img 
                       src={item.src} 
                       alt={item.alt} 
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 pointer-events-none" 
                     />
                   </div>
                 ))}
@@ -654,12 +635,14 @@ export default function App() {
                 {galleryPhotos.map((item, index) => (
                   <div 
                     key={`gal-c2-${index}`} 
-                    className="w-64 sm:w-72 h-44 sm:h-52 shrink-0 rounded-2xl overflow-hidden shadow-sm bg-slate-100 group transition-all duration-300 hover:shadow-md hover:-translate-y-1"
+                    onDoubleClick={() => setExpandedImage({ src: item.src, alt: item.alt })}
+                    title="Doble clic para ampliar imagen"
+                    className="w-64 sm:w-72 h-44 sm:h-52 shrink-0 rounded-2xl overflow-hidden shadow-sm bg-slate-100 group transition-all duration-300 hover:shadow-md hover:-translate-y-1 cursor-zoom-in select-none"
                   >
                     <img 
                       src={item.src} 
                       alt={item.alt} 
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105 pointer-events-none" 
                     />
                   </div>
                 ))}
@@ -696,98 +679,70 @@ export default function App() {
               <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
                 
                 {/* Card 1: Caminar y aprender juntos */}
-                <div className="group p-5 rounded-2xl bg-white border border-slate-200 shadow-sm transition-all duration-300 hover:shadow-md hover:border-[#930112]/40 hover:bg-rose-50/20 cursor-pointer space-y-2 flex flex-col justify-between">
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between">
-                      <div className="w-10 h-10 rounded-xl bg-[#930112]/10 flex items-center justify-center text-[#930112] transition-transform duration-300 group-hover:scale-110">
-                        <Users className="w-5 h-5 stroke-[1.75]" />
-                      </div>
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 group-hover:text-[#930112] transition-colors">
-                        Pilar 01
-                      </span>
+                <div className="group p-5 sm:p-6 rounded-2xl bg-white border border-slate-200 shadow-sm transition-all duration-300 hover:shadow-md hover:bg-rose-50/70 hover:border-rose-200 cursor-default flex flex-col justify-center min-h-[120px]">
+                  <div className="flex items-center space-x-4">
+                    <div className="w-14 h-14 shrink-0 rounded-2xl bg-[#930112]/10 flex items-center justify-center text-[#930112] transition-transform duration-300 group-hover:scale-105">
+                      <Users className="w-7 h-7 stroke-[1.75]" />
                     </div>
-                    <h3 className="font-bold text-slate-900 text-sm sm:text-base group-hover:text-[#930112] transition-colors">
+                    <h3 className="font-bold text-slate-900 text-base sm:text-lg leading-snug">
                       Caminar y aprender juntos
                     </h3>
+                  </div>
+                  <div className="overflow-hidden max-h-0 opacity-0 transition-all duration-300 ease-out group-hover:max-h-28 group-hover:opacity-100 group-hover:pt-3">
                     <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
                       Porque somos comunidad, porque caminamos y aprendemos juntos junto al valioso compromiso de las familias.
                     </p>
                   </div>
-                  <div className="pt-2 border-t border-slate-100 group-hover:border-[#930112]/20 text-[11px] text-slate-500 group-hover:text-[#930112] font-medium flex items-center justify-between transition-colors">
-                    <span>Vínculo Escuela - Familia</span>
-                    <ChevronRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
-                  </div>
                 </div>
 
                 {/* Card 2: Educar en Cristo */}
-                <div className="group p-5 rounded-2xl bg-white border border-slate-200 shadow-sm transition-all duration-300 hover:shadow-md hover:border-[#025530]/40 hover:bg-emerald-50/20 cursor-pointer space-y-2 flex flex-col justify-between">
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between">
-                      <div className="w-10 h-10 rounded-xl bg-[#025530]/10 flex items-center justify-center text-[#025530] transition-transform duration-300 group-hover:scale-110">
-                        <Heart className="w-5 h-5 stroke-[1.75]" />
-                      </div>
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 group-hover:text-[#025530] transition-colors">
-                        Pilar 02
-                      </span>
+                <div className="group p-5 sm:p-6 rounded-2xl bg-white border border-slate-200 shadow-sm transition-all duration-300 hover:shadow-md hover:bg-emerald-50/70 hover:border-emerald-200 cursor-default flex flex-col justify-center min-h-[120px]">
+                  <div className="flex items-center space-x-4">
+                    <div className="w-14 h-14 shrink-0 rounded-2xl bg-[#025530]/10 flex items-center justify-center text-[#025530] transition-transform duration-300 group-hover:scale-105">
+                      <Heart className="w-7 h-7 stroke-[1.75]" />
                     </div>
-                    <h3 className="font-bold text-slate-900 text-sm sm:text-base group-hover:text-[#025530] transition-colors">
+                    <h3 className="font-bold text-slate-900 text-base sm:text-lg leading-snug">
                       Educar en Cristo
                     </h3>
+                  </div>
+                  <div className="overflow-hidden max-h-0 opacity-0 transition-all duration-300 ease-out group-hover:max-h-28 group-hover:opacity-100 group-hover:pt-3">
                     <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
                       Con una mirada de amor que nos transforme y guíe cada paso de nuestro crecimiento educativo.
                     </p>
                   </div>
-                  <div className="pt-2 border-t border-slate-100 group-hover:border-[#025530]/20 text-[11px] text-slate-500 group-hover:text-[#025530] font-medium flex items-center justify-between transition-colors">
-                    <span>Mirada Transformadora</span>
-                    <ChevronRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
-                  </div>
                 </div>
 
                 {/* Card 3: Continuidad Pedagógica */}
-                <div className="group p-5 rounded-2xl bg-white border border-slate-200 shadow-sm transition-all duration-300 hover:shadow-md hover:border-amber-500/40 hover:bg-amber-50/20 cursor-pointer space-y-2 flex flex-col justify-between">
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between">
-                      <div className="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center text-amber-600 transition-transform duration-300 group-hover:scale-110">
-                        <Layers className="w-5 h-5 stroke-[1.75]" />
-                      </div>
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 group-hover:text-amber-700 transition-colors">
-                        Pilar 03
-                      </span>
+                <div className="group p-5 sm:p-6 rounded-2xl bg-white border border-slate-200 shadow-sm transition-all duration-300 hover:shadow-md hover:bg-amber-50/70 hover:border-amber-200 cursor-default flex flex-col justify-center min-h-[120px]">
+                  <div className="flex items-center space-x-4">
+                    <div className="w-14 h-14 shrink-0 rounded-2xl bg-amber-500/10 flex items-center justify-center text-amber-600 transition-transform duration-300 group-hover:scale-105">
+                      <Layers className="w-7 h-7 stroke-[1.75]" />
                     </div>
-                    <h3 className="font-bold text-slate-900 text-sm sm:text-base group-hover:text-amber-800 transition-colors">
+                    <h3 className="font-bold text-slate-900 text-base sm:text-lg leading-snug">
                       Continuidad Pedagógica
                     </h3>
+                  </div>
+                  <div className="overflow-hidden max-h-0 opacity-0 transition-all duration-300 ease-out group-hover:max-h-28 group-hover:opacity-100 group-hover:pt-3">
                     <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
                       Articulación constante entre Inicial, Primario y Secundario, asegurando una trayectoria escolar cuidada.
                     </p>
                   </div>
-                  <div className="pt-2 border-t border-slate-100 group-hover:border-amber-500/20 text-[11px] text-slate-500 group-hover:text-amber-800 font-medium flex items-center justify-between transition-colors">
-                    <span>Tres Niveles Integrados</span>
-                    <ChevronRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
-                  </div>
                 </div>
 
                 {/* Card 4: Arraigo en Tolosa */}
-                <div className="group p-5 rounded-2xl bg-white border border-slate-200 shadow-sm transition-all duration-300 hover:shadow-md hover:border-slate-400 hover:bg-slate-100/50 cursor-pointer space-y-2 flex flex-col justify-between">
-                  <div className="space-y-2">
-                    <div className="flex items-center justify-between">
-                      <div className="w-10 h-10 rounded-xl bg-slate-200 flex items-center justify-center text-slate-700 transition-transform duration-300 group-hover:scale-110">
-                        <School className="w-5 h-5 stroke-[1.75]" />
-                      </div>
-                      <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 group-hover:text-slate-800 transition-colors">
-                        Pilar 04
-                      </span>
+                <div className="group p-5 sm:p-6 rounded-2xl bg-white border border-slate-200 shadow-sm transition-all duration-300 hover:shadow-md hover:bg-sky-50/70 hover:border-sky-200 cursor-default flex flex-col justify-center min-h-[120px]">
+                  <div className="flex items-center space-x-4">
+                    <div className="w-14 h-14 shrink-0 rounded-2xl bg-sky-500/10 flex items-center justify-center text-sky-700 transition-transform duration-300 group-hover:scale-105">
+                      <School className="w-7 h-7 stroke-[1.75]" />
                     </div>
-                    <h3 className="font-bold text-slate-900 text-sm sm:text-base group-hover:text-slate-900 transition-colors">
+                    <h3 className="font-bold text-slate-900 text-base sm:text-lg leading-snug">
                       Arraigo en Tolosa
                     </h3>
+                  </div>
+                  <div className="overflow-hidden max-h-0 opacity-0 transition-all duration-300 ease-out group-hover:max-h-28 group-hover:opacity-100 group-hover:pt-3">
                     <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
                       Un espacio de referencia e identidad local, abierto al barrio y en constante diálogo con las familias de La Plata.
                     </p>
-                  </div>
-                  <div className="pt-2 border-t border-slate-100 group-hover:border-slate-300 text-[11px] text-slate-500 group-hover:text-slate-800 font-medium flex items-center justify-between transition-colors">
-                    <span>Ubicación y Comunidad</span>
-                    <ChevronRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
                   </div>
                 </div>
 
@@ -981,6 +936,42 @@ export default function App() {
           </div>
         </div>
       </footer>
+
+      {/* LIGHTBOX MODAL: DOBLE CLIC EN GALERÍA */}
+      {expandedImage && (
+        <div 
+          onClick={() => setExpandedImage(null)}
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-md p-4 sm:p-6 animate-in fade-in duration-200 cursor-zoom-out"
+        >
+          <div 
+            onClick={(e) => e.stopPropagation()}
+            className="relative max-w-4xl w-full max-h-[92vh] flex flex-col items-center justify-center cursor-default"
+          >
+            {/* Close Button */}
+            <button
+              onClick={() => setExpandedImage(null)}
+              className="absolute -top-12 right-0 sm:top-2 sm:right-2 z-20 p-2.5 rounded-full bg-white/20 hover:bg-white/40 text-white backdrop-blur-md transition-colors cursor-pointer"
+              title="Cerrar ampliación (Esc)"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            {/* Expanded Image Container */}
+            <div className="rounded-2xl overflow-hidden shadow-2xl bg-black border border-white/15 max-h-[80vh] flex items-center justify-center">
+              <img
+                src={expandedImage.src}
+                alt={expandedImage.alt}
+                className="max-h-[80vh] w-auto max-w-full object-contain select-none"
+              />
+            </div>
+            
+            {/* Caption */}
+            <div className="mt-3.5 px-4 py-1.5 rounded-full bg-black/60 backdrop-blur-md border border-white/10 text-white/90 text-xs sm:text-sm font-medium text-center">
+              {expandedImage.alt}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* POPUP / MODAL: INSCRIPCIÓN CICLO LECTIVO 2027 */}
       {inscriptionModalOpen && (
