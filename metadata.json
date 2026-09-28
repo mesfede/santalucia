@@ -1,0 +1,6 @@
+{
+  "name": "Comunidad Educadora Parroquial Santa Lucía de Tolosa",
+  "description": "Sitio institucional de la Comunidad Educadora Parroquial Santa Lucía de Tolosa. Niveles Inicial, Primario y Secundario.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

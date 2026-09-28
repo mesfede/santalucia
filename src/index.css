@@ -1,0 +1,37 @@
+@import "tailwindcss";
+
+@keyframes marqueeSlow {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-carousel-slow {
+  display: flex;
+  width: max-content;
+  animation: marqueeSlow 40s linear infinite;
+}
+
+.animate-carousel-slow:hover {
+  animation-play-state: paused;
+}
+
+@keyframes slideFadeBlur {
+  0% {
+    opacity: 0;
+    filter: blur(8px);
+    transform: translateY(6px);
+  }
+  100% {
+    opacity: 1;
+    filter: blur(0px);
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-blur {
+  animation: slideFadeBlur 0.85s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
